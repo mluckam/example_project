@@ -1,13 +1,14 @@
 plugins {
     id "java"
 
-    id "org.springframework.boot" version "2.7.18"
+    id "org.springframework.boot" version "3.2.4"
 }
 
 apply plugin: "io.spring.dependency-management"
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation group: "org.springframework.boot", name: "spring-boot-starter-validation"
 
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"

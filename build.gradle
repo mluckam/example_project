@@ -1,0 +1,20 @@
+plugins {
+    id "java"
+
+    id "org.springframework.boot" version "2.7.18"
+}
+
+apply plugin: "io.spring.dependency-management"
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testRuntimeOnly group: "org.junit.platform", name: "junit-platform-launcher"
+
+}
+
+test {
+    useJUnitPlatform()
+}

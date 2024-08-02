@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         mavenCentral()
     }
 }
@@ -10,5 +11,12 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
+        /*
+         * repository reports commons-io version 20030203.000550 as the latest
+         * https://repo.grails.org/artifactory/core/commons-io/commons-io/maven-metadata.xml
+         */
+        maven {
+            url = "https://repo.grails.org/core"
+        }
     }
 }

@@ -1,20 +1,32 @@
 plugins {
-    id "java"
+    id "base"
+    id "version-catalog"
 
-    id "org.springframework.boot" version "2.7.18"
+    id "com.github.ben-manes.versions" version "0.51.0"
+    id "nl.littlerobots.version-catalog-update" version "0.8.4"
 }
 
-apply plugin: "io.spring.dependency-management"
-
-dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web"
-
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testRuntimeOnly group: "org.junit.platform", name: "junit-platform-launcher"
-
+catalog {
+    versionCatalog {
+        version("commonsIoVersion", "2.16.1")
+        library("commons-io", "commons-io", "commons-io").versionRef("commonsIoVersion")
+    }
 }
 
-test {
-    useJUnitPlatform()
+tasks.versionCatalogUpdate.dependsOn(assemble, dependencyUpdates)
+//https://github.com/ben-manes/gradle-versions-plugin?tab=readme-ov-file#rejectversionsif-and-componentselection
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        it.candidate.group == "commons-io"
+                && it.candidate.module == "commons-io"
+                && it.candidate.version == "20030203.000550"
+    }
+}
+
+
+tasks.versionCatalogUpdate.dependsOn(dependencyUpdates)
+versionCatalogUpdate {
+    check.dependsOn versionCatalogUpdate
+
+    catalogFile = getLayout().getBuildDirectory().file("version-catalog/libs.versions.toml")
 }

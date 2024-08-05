@@ -2,7 +2,6 @@ plugins {
     id "base"
     id "version-catalog"
 
-    id "com.github.ben-manes.versions" version "0.51.0"
     id "nl.littlerobots.version-catalog-update" version "0.8.4"
 }
 
@@ -13,20 +12,15 @@ catalog {
     }
 }
 
-tasks.versionCatalogUpdate.dependsOn(assemble, dependencyUpdates)
-//https://github.com/ben-manes/gradle-versions-plugin?tab=readme-ov-file#rejectversionsif-and-componentselection
-tasks.named("dependencyUpdates").configure {
-    rejectVersionIf {
-        it.candidate.group == "commons-io"
-                && it.candidate.module == "commons-io"
-                && it.candidate.version == "20030203.000550"
-    }
-}
 
-
-tasks.versionCatalogUpdate.dependsOn(dependencyUpdates)
+tasks.versionCatalogUpdate.dependsOn(assemble)
 versionCatalogUpdate {
     check.dependsOn versionCatalogUpdate
 
     catalogFile = getLayout().getBuildDirectory().file("version-catalog/libs.versions.toml")
+
+    versionSelector {
+        it.candidate.version != "20030203.000550"
+    }
+
 }

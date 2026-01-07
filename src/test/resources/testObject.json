@@ -1,0 +1,5 @@
+{
+  "bars" : [ "test2", "test1" ],
+  "baz" : 123456789,
+  "foo" : "input"
+}
